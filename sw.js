@@ -3,7 +3,7 @@
 //  Estrategia: Cache-First con actualización en segundo plano
 // ═══════════════════════════════════════════════════
 
-const CACHE_NAME   = 'buildmatrix-v2';
+const CACHE_NAME   = 'buildmatrix-v1';
 const OFFLINE_URL  = './index.html';
 
 const PRECACHE_URLS = [
