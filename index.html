@@ -8321,27 +8321,25 @@ function exportProjViewPDF() {
 
   function _doPDF(p) {
     p.name = p.name || proj.projectName;
+    // _loadEntryIntoSession es síncrona — no necesita setTimeout
     _loadEntryIntoSession(p, proj.userName);
-    setTimeout(function() {
-      // Generar HTML del resumen (exportPDF) sin imprimir
-      CAPS = getCaps();
-      var t = calcTotals();
-      var dateStr = new Date().toLocaleDateString('es-EC',{day:'2-digit',month:'long',year:'numeric'});
-      var projName = S.proj || 'Sin nombre';
-      var LOGO = '<svg width="36" height="36" viewBox="0 0 32 32" fill="none"><circle cx="6" cy="6" r="3" fill="#0052FF"/><circle cx="16" cy="6" r="3" fill="#0052FF"/><circle cx="26" cy="6" r="3" fill="rgba(0,82,255,0.3)"/><circle cx="6" cy="16" r="3" fill="#0052FF"/><circle cx="16" cy="16" r="3" fill="#00D4FF"/><circle cx="26" cy="16" r="3" fill="#0052FF"/><circle cx="6" cy="26" r="3" fill="rgba(0,82,255,0.3)"/><circle cx="16" cy="26" r="3" fill="#0052FF"/><circle cx="26" cy="26" r="3" fill="#0052FF"/></svg>';
 
-      // Generar HTML completo: resumen + APUs sin llamar window.print() prematuro
-      var paEl = document.getElementById('pa');
-      if (!paEl) return;
+    CAPS = getCaps();
+    var dateStr = new Date().toLocaleDateString('es-EC',{day:'2-digit',month:'long',year:'numeric'});
+    var projName = S.proj || 'Sin nombre';
+    var LOGO = '<svg width="36" height="36" viewBox="0 0 32 32" fill="none"><circle cx="6" cy="6" r="3" fill="#0052FF"/><circle cx="16" cy="6" r="3" fill="#0052FF"/><circle cx="26" cy="6" r="3" fill="rgba(0,82,255,0.3)"/><circle cx="6" cy="16" r="3" fill="#0052FF"/><circle cx="16" cy="16" r="3" fill="#00D4FF"/><circle cx="26" cy="16" r="3" fill="#0052FF"/><circle cx="6" cy="26" r="3" fill="rgba(0,82,255,0.3)"/><circle cx="16" cy="26" r="3" fill="#0052FF"/><circle cx="26" cy="26" r="3" fill="#0052FF"/></svg>';
 
-      // Primero: generar resumen usando exportPDF pero interceptando el print
-      var _origPrint = window.print;
-      window.print = function(){}; // bloquear temporalmente
-      if (typeof exportPDF === 'function') exportPDF();
-      window.print = _origPrint; // restaurar
+    var paEl = document.getElementById('pa');
+    if (!paEl) return;
 
-      // Agregar APUs al HTML generado
-      setTimeout(function() {
+    // Interceptar print de exportPDF
+    var _origPrint = window.print;
+    window.print = function(){};
+    if (typeof exportPDF === 'function') exportPDF();
+    window.print = _origPrint;
+
+    // Generar APUs — todo síncrono
+    (function() {
         var apuHtml = '';
         var S_TH  = 'background:#0033A0;color:#fff;font-size:8px;padding:5px 7px;text-align:left;letter-spacing:.8px;text-transform:uppercase;font-family:Arial,sans-serif;font-weight:700;border:none';
         var S_TH_R = S_TH+';text-align:right';
@@ -8430,21 +8428,29 @@ function exportProjViewPDF() {
           });
         });
 
-        // Agregar APUs al final del pa y luego imprimir
+        // Agregar APUs al final del pa
         paEl.innerHTML += apuHtml;
-        setTimeout(function(){ window.print(); }, 80);
-      }, 50);
 
-      // Restaurar estado anterior
-      setTimeout(function() {
-        _restoreBD();
-        S.proj = prevS.proj; S.own = prevS.own; S.date = prevS.date;
-        S.ind = prevS.ind; S.uti = prevS.uti; S.iva = prevS.iva;
-        S.caps = prevS.caps; S.capNames = prevS.capNames; S.capNums = prevS.capNums;
-        S.customAPU = prevS.customAPU; S.customInsumos = prevS.customInsumos;
-        _applyProjectToBD(prevS);
-      }, 3000);
-    }, 100);
+        // Cerrar overlay — igual que closeExp() en los normales
+        var overlay = document.getElementById('proj-view-overlay');
+        if (overlay) overlay.style.display = 'none';
+        document.body.style.overflow = '';
+
+        // window.print() DIRECTO — sin ningún setTimeout ni async
+        // Igual que exportPDF() y exportPDFRubros() que funcionan en iOS
+        window.print();
+
+        // Restaurar overlay y estado
+        setTimeout(function() {
+          if (overlay) overlay.style.display = 'block';
+          _restoreBD();
+          S.proj = prevS.proj; S.own = prevS.own; S.date = prevS.date;
+          S.ind = prevS.ind; S.uti = prevS.uti; S.iva = prevS.iva;
+          S.caps = prevS.caps; S.capNames = prevS.capNames; S.capNums = prevS.capNums;
+          S.customAPU = prevS.customAPU; S.customInsumos = prevS.customInsumos;
+          _applyProjectToBD(prevS);
+        }, 2000);
+    })();
   }
 
   // Usar entryJson si está disponible
