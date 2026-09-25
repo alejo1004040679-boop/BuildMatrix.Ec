@@ -993,7 +993,7 @@ body.ia #app{display:flex;flex-direction:column;height:calc(100svh / 1.18);overf
 .ib:focus-visible{outline:none!important;box-shadow:0 0 14px rgba(100,210,255,.2)!important;border-color:var(--cy)!important}
 .ab{flex:1;display:flex;min-height:0}
 .sd{width:220px;flex-shrink:0;border-right:1px solid var(--br);background:var(--s2);display:flex;flex-direction:column;padding:12px 8px;gap:3px;overflow-y:auto}
-@media(max-width:860px){.sd{position:fixed;left:0;top:60px;bottom:0;z-index:600;transform:translateX(-102%);transition:transform .4s var(--es);box-shadow:20px 0 60px rgba(0,0,0,.4)}.sd.op{transform:none}#stog{display:flex!important;align-items:center!important;justify-content:center!important;width:48px!important;height:48px!important;min-width:48px!important;padding:0!important;flex-shrink:0!important}.at{position:fixed;top:0;left:0;right:0;z-index:50;gap:4px!important;padding:0 12px!important}.ab{padding-top:60px}#stog svg{width:28px!important;height:28px!important}}
+@media(max-width:860px){.sd{position:fixed;left:0;right:0;bottom:0;top:auto;max-height:72vh;z-index:600;transform:translateY(102%);transition:transform .45s var(--es);box-shadow:0 -20px 60px rgba(0,0,0,.5);background:var(--gl);backdrop-filter:blur(34px) saturate(160%);-webkit-backdrop-filter:blur(34px) saturate(160%);border:1px solid var(--br);border-bottom:none;border-radius:26px 26px 0 0;padding-top:22px}.sd::before{content:'';position:absolute;top:10px;left:50%;transform:translateX(-50%);width:40px;height:5px;border-radius:3px;background:rgba(255,255,255,.25)}.sd.op{transform:none}#stog{display:flex!important;align-items:center!important;justify-content:center!important;width:48px!important;height:48px!important;min-width:48px!important;padding:0!important;flex-shrink:0!important}.at{position:fixed;top:0;left:0;right:0;z-index:50;gap:4px!important;padding:0 12px!important}.ab{padding-top:60px}#stog svg{width:28px!important;height:28px!important}}
 @supports (padding-top: env(safe-area-inset-top)) {
   @media(max-width:860px){
     .at { top: env(safe-area-inset-top); }
@@ -1071,8 +1071,8 @@ body.ia #app{display:flex;flex-direction:column;height:calc(100svh / 1.18);overf
 .empty b{display:block;color:var(--sl);font-size:14.5px;margin-bottom:6px;font-weight:600}
 
 /* tables */
-.tbl{width:100%;border-collapse:collapse;font-size:12.5px}
-.tbl th{font-family:var(--f-mo);font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:var(--sld);text-align:left;padding:10px 11px;border-bottom:1px solid var(--br);white-space:nowrap;position:sticky;top:0;background:var(--s3);z-index:2}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px}
+.tbl th{font-family:var(--f-mo);font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:var(--sld);text-align:left;padding:12px 14px;border-bottom:1px solid var(--br);white-space:nowrap;position:sticky;top:0;background:var(--gl);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:2}
 [data-theme="light"] .tbl th{background:var(--s3);color:var(--sl)}
 [data-theme="light"] .tbl td{color:#1A202C}
 [data-theme="light"] .card{background:linear-gradient(165deg,var(--s3),var(--s2))}
@@ -1081,8 +1081,8 @@ body.ia #app{display:flex;flex-direction:column;height:calc(100svh / 1.18);overf
 [data-theme="light"] .sd{background:var(--s2)}
 [data-theme="light"] .mn{background:var(--ds)}
 [data-theme="light"] .kpi{background:linear-gradient(165deg,var(--s3),var(--s2))}
-.tbl td{padding:9px 11px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:middle}
-.tbl tr:hover td{background:rgba(100,210,255,.02)}
+.tbl td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:middle;transition:background .2s}
+.tbl tr:hover td{background:rgba(100,210,255,.045)}
 .tbl .r{text-align:right}
 .tbl .code{font-family:var(--f-mo);font-size:11px;color:var(--cy);white-space:nowrap}
 .tbl .money{font-family:var(--f-mo);font-size:12px;white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -1110,15 +1110,22 @@ body.ia #app{display:flex;flex-direction:column;height:calc(100svh / 1.18);overf
 
 /* presupuesto */
 .ph2{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:18px 20px}
-.fs{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--br);border:1px solid var(--br);border-radius:var(--r3);overflow:hidden;margin:16px 0 22px}
-.fc{background:var(--s3);padding:18px 22px}
+.fs{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;background:transparent;border:none;border-radius:0;overflow:visible;margin:16px 0 22px}
+.fc{position:relative;overflow:hidden;background:var(--gl);backdrop-filter:blur(26px) saturate(160%);-webkit-backdrop-filter:blur(26px) saturate(160%);border:1px solid var(--br);border-radius:var(--r3);padding:18px 22px;box-shadow:0 10px 28px rgba(0,0,0,.18);transition:transform .4s var(--es),border-color .3s,box-shadow .4s var(--es)}
+.fc::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(100,210,255,0.08) 0%,transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none;z-index:0;border-radius:inherit}
+.fc:hover::before{opacity:1}
+.fc:hover{transform:translateY(-3px);border-color:var(--brc)}
+.fc>*{position:relative;z-index:1}
 .fc .fl{font-size:11px;color:var(--sl);letter-spacing:.6px;text-transform:uppercase;font-family:var(--f-mo);font-weight:600}
 .fc .fv{font-family:var(--f-mo);font-size:clamp(13px,1.5vw,18px);font-weight:700;margin-top:7px;font-variant-numeric:tabular-nums;white-space:nowrap;letter-spacing:-.5px}
 .fc.hl{background:linear-gradient(140deg,rgba(10,132,255,.35),rgba(100,210,255,.13));border-top:2px solid rgba(100,210,255,.4)}
 .fc.hl .fl{color:var(--cy);letter-spacing:1px;font-size:11.5px}
 .fc.hl .fv{font-size:clamp(15px,1.8vw,20px);color:#fff;text-shadow:0 0 20px rgba(100,210,255,.3)}
-.ca{border:1px solid var(--br);border-radius:var(--r2);margin-bottom:10px;overflow:hidden;background:var(--s2);transition:border-color .3s}
-.ca.op{border-color:rgba(10,132,255,.38)}
+.ca{position:relative;border:1px solid var(--br);border-radius:var(--r3);margin-bottom:14px;overflow:hidden;background:var(--gl);backdrop-filter:blur(28px) saturate(160%);-webkit-backdrop-filter:blur(28px) saturate(160%);box-shadow:0 12px 32px rgba(0,0,0,.22);transition:border-color .35s,box-shadow .4s var(--es),transform .4s var(--es)}
+.ca::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(100,210,255,0.07) 0%,transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none;z-index:0;border-radius:inherit}
+.ca:hover::before{opacity:1}
+.ca>*{position:relative;z-index:1}
+.ca.op{border-color:rgba(10,132,255,.4);box-shadow:0 20px 48px rgba(0,0,0,.3),0 0 0 1px rgba(10,132,255,.12)}
 .cah{display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer;user-select:none;transition:background .2s;width:100%;text-align:left;border:none;background:none;color:inherit;font:inherit}
 .cah:hover{background:rgba(100,210,255,.03)}
 .cah .arr{transition:transform .32s var(--es);color:var(--sld);flex-shrink:0}
@@ -2142,6 +2149,15 @@ input[type=date].inp::-webkit-calendar-picker-indicator {
   window._fbCheckApproval      = function(){ return Promise.resolve(true); };
   window._fbSocialSignIn       = null;
 </script>
+<!-- Tailwind CDN — preflight disabled on purpose: this app has 2000+ lines of
+     hand-tuned CSS already (tables, buttons, inputs). Tailwind's base reset
+     would fight that CSS via bare-tag rules (button, input, h1...) and risk
+     breaking the "zero rotura" requirement. Utility classes (bg-*, flex, grid,
+     gap-*, rounded-*, p-*, etc.) still work normally without preflight. -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config = { corePlugins: { preflight: false } };</script>
+<!-- GSAP — spring-physics entrance animations + counter-roll for totals -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body>
 
@@ -5112,15 +5128,45 @@ function calcTotals(){
   const total=sub+iva;
   return{cd,ind,uti,sub,iva,total};
 }
+var _finFirst=true;
+var _finRoll={cd:0,ind:0,uti:0,sub:0,iva:0,total:0};
 function calcFin(){
   const t=calcTotals();
-  $id('fstrip').innerHTML=`
-    <div class="fc"><div class="fl">Costo directo</div><div class="fv">${fmtUSD(t.cd)}</div></div>
-    <div class="fc"><div class="fl">Indirectos ${S.ind||0}%</div><div class="fv">${fmtUSD(t.ind)}</div></div>
-    <div class="fc"><div class="fl">Utilidad ${S.uti||0}%</div><div class="fv">${fmtUSD(t.uti)}</div></div>
-    <div class="fc"><div class="fl">Subtotal</div><div class="fv">${fmtUSD(t.sub)}</div></div>
-    <div class="fc"><div class="fl">IVA ${S.iva||0}%</div><div class="fv">${fmtUSD(t.iva)}</div></div>
-    <div class="fc hl"><div class="fl">TOTAL GENERAL</div><div class="fv">${fmtUSD(t.total)}</div></div>`;
+  var el=$id('fstrip');
+  if(_finFirst || !el.querySelector('.fv')){
+    el.innerHTML=`
+      <div class="fc"><div class="fl">Costo directo</div><div class="fv" id="fv-cd">${fmtUSD(t.cd)}</div></div>
+      <div class="fc"><div class="fl" id="fl-ind">Indirectos ${S.ind||0}%</div><div class="fv" id="fv-ind">${fmtUSD(t.ind)}</div></div>
+      <div class="fc"><div class="fl" id="fl-uti">Utilidad ${S.uti||0}%</div><div class="fv" id="fv-uti">${fmtUSD(t.uti)}</div></div>
+      <div class="fc"><div class="fl">Subtotal</div><div class="fv" id="fv-sub">${fmtUSD(t.sub)}</div></div>
+      <div class="fc"><div class="fl" id="fl-iva">IVA ${S.iva||0}%</div><div class="fv" id="fv-iva">${fmtUSD(t.iva)}</div></div>
+      <div class="fc hl"><div class="fl">TOTAL GENERAL</div><div class="fv" id="fv-total">${fmtUSD(t.total)}</div></div>`;
+    _finRoll={cd:t.cd,ind:t.ind,uti:t.uti,sub:t.sub,iva:t.iva,total:t.total};
+    _finFirst=false;
+  } else {
+    var flInd=$id('fl-ind'); if(flInd) flInd.textContent='Indirectos '+(S.ind||0)+'%';
+    var flUti=$id('fl-uti'); if(flUti) flUti.textContent='Utilidad '+(S.uti||0)+'%';
+    var flIva=$id('fl-iva'); if(flIva) flIva.textContent='IVA '+(S.iva||0)+'%';
+    if(typeof gsap!=='undefined'){
+      gsap.to(_finRoll,{cd:t.cd,ind:t.ind,uti:t.uti,sub:t.sub,iva:t.iva,total:t.total,duration:.5,ease:'power2.out',overwrite:true,
+        onUpdate:function(){
+          var a=$id('fv-cd'); if(a)a.textContent=fmtUSD(_finRoll.cd);
+          var b=$id('fv-ind'); if(b)b.textContent=fmtUSD(_finRoll.ind);
+          var c=$id('fv-uti'); if(c)c.textContent=fmtUSD(_finRoll.uti);
+          var d=$id('fv-sub'); if(d)d.textContent=fmtUSD(_finRoll.sub);
+          var e=$id('fv-iva'); if(e)e.textContent=fmtUSD(_finRoll.iva);
+          var f=$id('fv-total'); if(f)f.textContent=fmtUSD(_finRoll.total);
+        }});
+    } else {
+      _finRoll={cd:t.cd,ind:t.ind,uti:t.uti,sub:t.sub,iva:t.iva,total:t.total};
+      $id('fv-cd').textContent=fmtUSD(t.cd);
+      $id('fv-ind').textContent=fmtUSD(t.ind);
+      $id('fv-uti').textContent=fmtUSD(t.uti);
+      $id('fv-sub').textContent=fmtUSD(t.sub);
+      $id('fv-iva').textContent=fmtUSD(t.iva);
+      $id('fv-total').textContent=fmtUSD(t.total);
+    }
+  }
   $id('ctp').textContent=S.caps.reduce((a,b)=>a+b.length,0);
   persist();
 }
@@ -9531,7 +9577,7 @@ function _swapCaps(a, b){
 
 // ── App Cards Mouse Glow (per-card listeners, always tracks cursor) ──────────
 (function(){
-  var SELECTORS = '.kpi, .gc2, .ri, .export-card, .feature-card, .card';
+  var SELECTORS = '.kpi, .gc2, .ri, .export-card, .feature-card, .card, .ca, .fc';
 
   function attachGlow(el){
     if(el._glowAttached) return;
